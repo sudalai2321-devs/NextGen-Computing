@@ -26,9 +26,7 @@
                             500: '#0ea5e9',
                             600: '#0284c7',
                             700: '#0369a1',
-                        },
-                        whatsapp: '#25D366',
-                        instagram: '#E1306C'
+                        }
                     }
                 }
             }
@@ -39,7 +37,7 @@
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; }
         
-        /* Smooth Scrolling & Scrollbar */
+        /* Smooth Scroll & Scrollbar */
         html { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -108,7 +106,6 @@
             </div>
             <div class="flex items-center space-x-8">
                 <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="home">Home</a>
-                <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="about">About</a>
                 <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="details">Rules</a>
                 <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="register">Register</a>
                 <button id="theme-toggle" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-700">
@@ -130,7 +127,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 mb-24">
 
         <main id="page-home" class="page active">
-            <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div class="flex flex-col lg:flex-row items-center gap-12 mb-20">
                 <div class="lg:w-1/2 text-center lg:text-left">
                     <div class="inline-block px-4 py-1.5 bg-brand-50 dark:bg-slate-800 border border-brand-100 dark:border-slate-700 rounded-full text-brand-700 dark:text-brand-400 text-xs font-bold mb-6 tracking-wide uppercase">
                         🚀 Event Date: 13th
@@ -163,12 +160,33 @@
                         </a>
                     </div>
                 </div>
-            </div>
-        </main>
 
-        <main id="page-about" class="page">
+                <div class="lg:w-1/2">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20 dark:border-slate-700 bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm p-8">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-brand-500">
+                                <h3 class="font-bold text-slate-800 dark:text-white">Presentation</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">8-10 Slides Max</p>
+                            </div>
+                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-accent-500">
+                                <h3 class="font-bold text-slate-800 dark:text-white">Team Size</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">1 to 3 Members</p>
+                            </div>
+                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-teal-500">
+                                <h3 class="font-bold text-slate-800 dark:text-white">Mode</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Offline / Hybrid</p>
+                            </div>
+                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-rose-500">
+                                <h3 class="font-bold text-slate-800 dark:text-white">Prizes</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Certificates & Awards</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <section class="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-8 md:p-12 border border-slate-100 dark:border-slate-700">
-                <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">About the Event</h1>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">About the Event</h2>
                 <div class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
                     <p class="mb-4">
                         <strong>NextGen Computing</strong> is a premier technical symposium designed to bring together the brightest minds in technology. Our mission is to provide a platform for students to showcase their research, innovative ideas, and technical prowess in the field of modern computing.
@@ -185,7 +203,6 @@
 
         <main id="page-details" class="page">
             <section class="max-w-4xl mx-auto space-y-8">
-                
                 <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-lg border border-slate-100 dark:border-slate-700 text-center">
                     <h1 class="text-3xl font-bold text-slate-900 dark:text-white">📌 Event Rules & Guidelines</h1>
                     <p class="mt-2 text-slate-500 dark:text-slate-400">Please read the instructions carefully before registering.</p>
@@ -199,7 +216,6 @@
                             <li><strong>Cross-department</strong> teams are allowed.</li>
                         </ul>
                     </div>
-
                     <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-accent-500">
                         <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">📚 Topic Guidelines</h3>
                         <ul class="list-disc list-inside text-sm text-slate-600 dark:text-slate-300 space-y-2">
@@ -207,7 +223,6 @@
                             <li>Innovative and research-oriented topics preferred.</li>
                         </ul>
                     </div>
-
                     <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-pink-500">
                         <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">🖥 Presentation Format</h3>
                         <ul class="list-disc list-inside text-sm text-slate-600 dark:text-slate-300 space-y-2">
@@ -216,7 +231,6 @@
                             <li><strong>Originality:</strong> Plagiarism is strictly prohibited.</li>
                         </ul>
                     </div>
-
                     <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-green-500">
                         <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">🧪 Event Levels</h3>
                         <div class="text-sm text-slate-600 dark:text-slate-300 space-y-3">
@@ -341,10 +355,6 @@
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
             Home
         </a>
-        <a href="#" class="mobile-icon-btn" data-page="about">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            About
-        </a>
         <a href="#" class="mobile-icon-btn" data-page="details">
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
             Rules
@@ -406,6 +416,8 @@
 
         // --- 4. FORM SUBMIT ---
         const form=document.getElementById("registration-form"), submitBtn=document.getElementById("submit-button"), loading=document.getElementById("loading-backdrop"), modalBack=document.getElementById("modal-backdrop"), success=document.getElementById("success-modal"), error=document.getElementById("error-modal");
+        
+        // PASTE YOUR GOOGLE SCRIPT URL HERE
         const SCRIPT_URL = "INSERT_YOUR_DEPLOYED_WEB_APP_URL_HERE"; 
         
         form.addEventListener("submit", (e) => {
