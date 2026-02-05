@@ -12,7 +12,7 @@
 
     <script>
         tailwind.config = {
-            darkMode: 'class', // Enables manual dark mode toggling
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -26,13 +26,9 @@
                             500: '#0ea5e9',
                             600: '#0284c7',
                             700: '#0369a1',
-                            900: '#0c4a6e',
                         },
-                        dark: {
-                            bg: '#0f172a',
-                            card: '#1e293b',
-                            text: '#f8fafc'
-                        }
+                        whatsapp: '#25D366',
+                        instagram: '#E1306C'
                     }
                 }
             }
@@ -40,204 +36,215 @@
     </script>
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
-        }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; }
-
-        /* Custom Scrollbar */
+        
+        /* Smooth Scrolling & Scrollbar */
+        html { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
 
-        /* Background Particles */
-        #particles-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10;
-        }
-        
-        /* Light Mode BG */
+        /* Dynamic Background */
+        #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
         html.light #particles-container { background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%); }
-        /* Dark Mode BG */
         html.dark #particles-container { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); }
 
         /* Page Transitions */
-        .page { display: none; animation: fadeIn 0.4s ease-out; }
+        .page { display: none; animation: slideUp 0.4s ease-out; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Gradient Text */
+        /* Text Gradient */
         .gradient-text {
             background: linear-gradient(to right, #0ea5e9, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* File Upload Area */
-        .file-drop-area {
-            border: 2px dashed #cbd5e1;
-            transition: 0.2s;
-        }
-        .file-drop-area.is-active { border-color: #0ea5e9; background-color: rgba(14, 165, 233, 0.1); }
-        .dark .file-drop-area { border-color: #475569; background-color: #1e293b; }
-        .dark .file-drop-area.is-active { border-color: #0ea5e9; background-color: rgba(14, 165, 233, 0.1); }
-
-        /* Modern Mobile Bottom Nav (iPhone style) */
+        /* Mobile Dock (iPhone Style) */
         .mobile-dock {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 24px;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            z-index: 50;
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 95%; max-width: 420px;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px);
+            border-radius: 24px; padding: 12px 10px;
+            display: flex; justify-content: space-around; align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5); z-index: 50;
         }
         .dark .mobile-dock {
-            background: rgba(30, 41, 59, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-
         .mobile-icon-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #64748b; font-size: 0.7rem; font-weight: 500; transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center;
+            color: #64748b; font-size: 0.65rem; font-weight: 600; transition: 0.2s;
         }
         .dark .mobile-icon-btn { color: #94a3b8; }
-        
         .mobile-icon-btn.active { color: #0ea5e9; transform: translateY(-2px); }
-        .mobile-icon-btn.active svg { fill: rgba(14, 165, 233, 0.1); }
+        .mobile-icon-btn svg { width: 22px; height: 22px; mb-1; }
 
+        /* File Upload */
+        .file-drop-area { border: 2px dashed #cbd5e1; transition: 0.2s; }
+        .file-drop-area.is-active { border-color: #0ea5e9; background: rgba(14, 165, 233, 0.05); }
+        
         /* Modals */
         #modal-backdrop, #loading-backdrop {
-            display: none; position: fixed; inset: 0;
-            background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
-            z-index: 60; justify-content: center; align-items: center;
+            display: none; position: fixed; inset: 0; z-index: 60;
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
+            justify-content: center; align-items: center;
         }
-        .spinner {
-            width: 48px; height: 48px; border: 5px solid rgba(255,255,255,0.3);
-            border-top-color: #0ea5e9; border-radius: 50%; animation: spin 1s linear infinite;
-        }
+        .spinner { width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.2); border-top-color: #0ea5e9; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text">
+<body class="bg-slate-50 text-slate-900 dark:bg-[#0f172a] dark:text-slate-100">
 
     <div id="particles-container"></div>
 
-    <header class="hidden sm:block fixed w-full top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center cursor-pointer" onclick="showPage('home')">
-                    <div class="flex flex-col">
-                        <span class="text-2xl font-bold tracking-tight text-slate-800 dark:text-white">NEXT<span class="text-brand-500">GEN</span></span>
-                        <span class="text-xs font-semibold tracking-widest text-slate-500 dark:text-slate-400 uppercase">Computing 2026</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center space-x-8">
-                    <a href="#" class="nav-link text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors" data-page="home">Home</a>
-                    <a href="#" class="nav-link text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors" data-page="details">Details</a>
-                    <a href="#" class="nav-link text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors" data-page="register">Register</a>
-                    
-                    <button id="theme-toggle" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
-                        <svg id="sun-icon" class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                        <svg id="moon-icon" class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-                    </button>
-                </div>
+    <header class="hidden sm:block fixed w-full top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <nav class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex flex-col cursor-pointer" onclick="showPage('home')">
+                <span class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">NEXT<span class="text-brand-500">GEN</span></span>
+                <span class="text-[10px] font-bold tracking-[0.2em] text-slate-500 dark:text-slate-400 uppercase">Computing 2025</span>
+            </div>
+            <div class="flex items-center space-x-8">
+                <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="home">Home</a>
+                <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="about">About</a>
+                <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="details">Rules</a>
+                <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="register">Register</a>
+                <button id="theme-toggle" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-700">
+                    <svg id="sun-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <svg id="moon-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                </button>
             </div>
         </nav>
     </header>
 
     <header class="sm:hidden fixed w-full top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 h-16 flex justify-between items-center">
-        <span class="text-xl font-bold tracking-tight text-slate-800 dark:text-white">NEXT<span class="text-brand-500">GEN</span></span>
+        <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">NEXT<span class="text-brand-500">GEN</span></span>
         <button id="theme-toggle-mobile" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400">
-             <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-             <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+             <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+             <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
         </button>
     </header>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 mb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 mb-24">
 
         <main id="page-home" class="page active">
             <div class="flex flex-col lg:flex-row items-center gap-12">
                 <div class="lg:w-1/2 text-center lg:text-left">
-                    <div class="inline-block px-4 py-1.5 bg-brand-50 dark:bg-slate-800 border border-brand-100 dark:border-slate-700 rounded-full text-brand-700 dark:text-brand-400 text-sm font-bold mb-6">
-                        🚀 Paper Presentation 2025
+                    <div class="inline-block px-4 py-1.5 bg-brand-50 dark:bg-slate-800 border border-brand-100 dark:border-slate-700 rounded-full text-brand-700 dark:text-brand-400 text-xs font-bold mb-6 tracking-wide uppercase">
+                        🚀 Event Date: 13th
                     </div>
                     <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight text-slate-900 dark:text-white mb-6">
                         NextGen <br/>
                         <span class="gradient-text">Computing</span>
                     </h1>
-                    <p class="text-xl text-slate-600 dark:text-slate-300 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
-                        Present your innovative ideas on the future of technology. <br>
-                        <strong>Theme:</strong> NextGen Computing.
+                    <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+                        Showcase your ideas on the future of technology. Join the elite league of innovators at our national-level paper presentation event.
                     </p>
+                    
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <button class="nav-link-button px-8 py-4 bg-brand-600 text-white font-bold rounded-2xl shadow-lg shadow-brand-500/30 hover:bg-brand-700 transition-all hover:scale-105" data-page="register">
+                        <button class="nav-link-button px-8 py-3.5 bg-brand-600 text-white font-bold rounded-xl shadow-lg shadow-brand-500/30 hover:bg-brand-700 transition-all hover:scale-[1.02]" data-page="register">
                             Register Now
                         </button>
+                        <button class="nav-link-button px-8 py-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all" data-page="details">
+                            View Rules
+                        </button>
                     </div>
-                </div>
-                <div class="lg:w-1/2">
-                    <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20 dark:border-slate-700 bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm p-8">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-brand-500">
-                                <h3 class="font-bold text-slate-800 dark:text-white">Topic</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">NextGen Computing</p>
-                            </div>
-                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-accent-500">
-                                <h3 class="font-bold text-slate-800 dark:text-white">Team</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">1 - 3 Members</p>
-                            </div>
-                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-teal-500">
-                                <h3 class="font-bold text-slate-800 dark:text-white">Deadline</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Submit PPT Online</p>
-                            </div>
-                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-rose-500">
-                                <h3 class="font-bold text-slate-800 dark:text-white">Mode</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Offline Presentation</p>
-                            </div>
-                        </div>
+
+                    <div class="mt-10 flex items-center justify-center lg:justify-start gap-4">
+                        <a href="https://chat.whatsapp.com/YOUR_LINK_HERE" target="_blank" class="flex items-center px-4 py-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-lg text-sm font-semibold hover:bg-green-100 dark:hover:bg-green-900/40 transition">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            WhatsApp
+                        </a>
+                        <a href="https://instagram.com/YOUR_ID_HERE" target="_blank" class="flex items-center px-4 py-2 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-lg text-sm font-semibold hover:bg-pink-100 dark:hover:bg-pink-900/40 transition">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            Instagram
+                        </a>
                     </div>
                 </div>
             </div>
         </main>
 
+        <main id="page-about" class="page">
+            <section class="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-8 md:p-12 border border-slate-100 dark:border-slate-700">
+                <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">About the Event</h1>
+                <div class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
+                    <p class="mb-4">
+                        <strong>NextGen Computing</strong> is a premier technical symposium designed to bring together the brightest minds in technology. Our mission is to provide a platform for students to showcase their research, innovative ideas, and technical prowess in the field of modern computing.
+                    </p>
+                    <p class="mb-4">
+                        This year, we focus on the convergence of <strong>Artificial Intelligence, Quantum Computing, and Blockchain</strong>. We invite students from all departments to step forward, present their papers, and contribute to the dialogue that shapes our future.
+                    </p>
+                    <p>
+                        Whether you are a coding prodigy, a research enthusiast, or a tech visionary, this is your stage. Join us for two days of learning, competition, and networking.
+                    </p>
+                </div>
+            </section>
+        </main>
+
         <main id="page-details" class="page">
-            <section class="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-3xl shadow-lg p-8 md:p-12 border border-slate-100 dark:border-slate-700">
-                <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-8 border-b dark:border-slate-700 pb-4">Event Guidelines</h1>
-                <div class="space-y-8 text-slate-600 dark:text-slate-300">
-                    <div class="flex gap-4">
-                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-100 dark:bg-slate-700 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">1</div>
-                        <div>
-                            <h4 class="text-xl font-bold text-slate-800 dark:text-white">Presentation Format</h4>
-                            <p class="mt-2">Prepare a PPT or PDF. Max 15 Slides. Focus on innovation within NextGen Computing.</p>
+            <section class="max-w-4xl mx-auto space-y-8">
+                
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-lg border border-slate-100 dark:border-slate-700 text-center">
+                    <h1 class="text-3xl font-bold text-slate-900 dark:text-white">📌 Event Rules & Guidelines</h1>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">Please read the instructions carefully before registering.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-brand-500">
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">👥 Team Formation</h3>
+                        <ul class="list-disc list-inside text-sm text-slate-600 dark:text-slate-300 space-y-2">
+                            <li><strong>Min 1, Max 3</strong> members per team.</li>
+                            <li><strong>Cross-department</strong> teams are allowed.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-accent-500">
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">📚 Topic Guidelines</h3>
+                        <ul class="list-disc list-inside text-sm text-slate-600 dark:text-slate-300 space-y-2">
+                            <li>Paper must strictly relate to <strong>“NextGen Computing”</strong>.</li>
+                            <li>Innovative and research-oriented topics preferred.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-pink-500">
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">🖥 Presentation Format</h3>
+                        <ul class="list-disc list-inside text-sm text-slate-600 dark:text-slate-300 space-y-2">
+                            <li>Format: <strong>PPT / PPTX</strong>.</li>
+                            <li>Slide Count: Recommended <strong>7–8 slides</strong>.</li>
+                            <li><strong>Originality:</strong> Plagiarism is strictly prohibited.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-green-500">
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">🧪 Event Levels</h3>
+                        <div class="text-sm text-slate-600 dark:text-slate-300 space-y-3">
+                            <div>
+                                <strong class="text-slate-800 dark:text-white">Level 1: Online Screening (12th)</strong>
+                                <p>Submitted PPTs evaluated online. Shortlisted teams move to Final.</p>
+                            </div>
+                            <div>
+                                <strong class="text-slate-800 dark:text-white">Level 2: Offline Presentation (13th)</strong>
+                                <p>Presentation in front of judges at the venue.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex gap-4">
-                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-100 dark:bg-slate-700 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">2</div>
-                        <div>
-                            <h4 class="text-xl font-bold text-slate-800 dark:text-white">Team Structure</h4>
-                            <p class="mt-2">Minimum 1 member, Maximum 3 members. One registration per team.</p>
-                        </div>
+                </div>
+
+                <div class="bg-indigo-50 dark:bg-slate-800 p-6 rounded-2xl border border-indigo-100 dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">📍 Reporting Details (Final Round)</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300"><strong>Date:</strong> 13th &nbsp;|&nbsp; <strong>Time:</strong> 9:30 AM</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-300"><strong>Venue:</strong> Lecture Hall, Academic Block</p>
                     </div>
-                    <div class="flex gap-4">
-                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-100 dark:bg-slate-700 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">3</div>
-                        <div>
-                            <h4 class="text-xl font-bold text-slate-800 dark:text-white">Submission</h4>
-                            <p class="mt-2">PPT upload is mandatory during registration. Use the form below.</p>
-                        </div>
+                    <div class="bg-white dark:bg-slate-900 px-4 py-2 rounded-lg text-sm font-semibold shadow-sm text-slate-700 dark:text-slate-300">
+                        ⚠ Late submissions not accepted
                     </div>
+                </div>
+
+                <div class="text-center text-sm text-slate-500 dark:text-slate-400">
+                    <p>Judges’ decision will be final. Participants must carry their college ID card.</p>
                 </div>
             </section>
         </main>
@@ -250,7 +257,6 @@
                 </div>
                 
                 <form id="registration-form" class="space-y-8">
-                    
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700">
                         <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-4">Team Lead & Details</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -258,12 +264,10 @@
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Lead Name <span class="text-red-500">*</span></label>
                                 <input type="text" name="lead_name" required class="w-full rounded-xl bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white py-3 px-4 focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="Full Name">
                             </div>
-                            
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Register No <span class="text-red-500">*</span></label>
                                 <input type="text" name="reg_no" required class="w-full rounded-xl bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white py-3 px-4 focus:ring-2 focus:ring-brand-500 outline-none transition">
                             </div>
-
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Year of Study <span class="text-red-500">*</span></label>
                                 <select name="year" required class="w-full rounded-xl bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white py-3 px-4 focus:ring-2 focus:ring-brand-500 outline-none transition">
@@ -274,17 +278,14 @@
                                     <option value="IV Year">IV Year</option>
                                 </select>
                             </div>
-
                             <div class="md:col-span-2">
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Department <span class="text-red-500">*</span></label>
                                 <input type="text" name="department" required class="w-full rounded-xl bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white py-3 px-4 focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="e.g. Computer Science">
                             </div>
-
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email ID <span class="text-red-500">*</span></label>
                                 <input type="email" name="email" required class="w-full rounded-xl bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white py-3 px-4 focus:ring-2 focus:ring-brand-500 outline-none transition">
                             </div>
-
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Mobile No <span class="text-red-500">*</span></label>
                                 <input type="tel" name="mobile" pattern="[0-9]{10}" required class="w-full rounded-xl bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white py-3 px-4 focus:ring-2 focus:ring-brand-500 outline-none transition">
@@ -308,22 +309,18 @@
 
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700">
                         <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-4">Presentation Upload <span class="text-red-500">*</span></h2>
-                        
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Topic</label>
                             <input type="text" name="topic" value="NextGen Computing" readonly class="w-full rounded-xl bg-gray-200 dark:bg-slate-700 border-transparent text-slate-600 dark:text-slate-300 py-3 px-4 cursor-not-allowed font-semibold">
                         </div>
-
                         <div class="file-drop-area cursor-pointer p-8 rounded-xl bg-white dark:bg-slate-800 text-center" id="drop-area">
-                            <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                            <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                             <div class="mt-4 flex flex-col items-center text-sm text-slate-600 dark:text-slate-400">
                                 <label for="file-upload" class="relative cursor-pointer rounded-md font-bold text-brand-600 hover:text-brand-500 focus-within:outline-none">
-                                    <span>Upload PPT / PDF</span>
+                                    <span>Upload PPT / PPTX</span>
                                     <input id="file-upload" name="ppt_file_display" type="file" class="sr-only" accept=".ppt,.pptx,.pdf">
                                 </label>
-                                <p class="text-xs mt-1">Drag and drop or click</p>
+                                <p class="text-xs mt-1">7-8 Slides Recommended</p>
                             </div>
                             <p id="file-name-display" class="text-sm font-bold text-brand-600 mt-4"></p>
                         </div>
@@ -341,21 +338,24 @@
 
     <nav class="sm:hidden mobile-dock">
         <a href="#" class="mobile-icon-btn active" data-page="home">
-            <svg class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
             Home
         </a>
+        <a href="#" class="mobile-icon-btn" data-page="about">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            About
+        </a>
         <a href="#" class="mobile-icon-btn" data-page="details">
-            <svg class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            Details
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+            Rules
         </a>
         <a href="#" class="mobile-icon-btn" data-page="register">
-            <svg class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
             Register
         </a>
     </nav>
 
     <div id="loading-backdrop" class="flex"><div class="spinner"></div></div>
-    
     <div id="modal-backdrop" class="flex">
         <div id="success-modal" class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center hidden">
             <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6"><svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
@@ -372,170 +372,58 @@
     </div>
 
     <script>
-        // --- 1. THEME SWITCHER LOGIC ---
+        // --- 1. THEME LOGIC ---
         const html = document.documentElement;
-        const toggleButtons = [document.getElementById('theme-toggle'), document.getElementById('theme-toggle-mobile')];
-        
-        // Load saved theme
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.add('dark');
-            html.classList.remove('light');
-        } else {
-            html.classList.remove('dark');
-            html.classList.add('light');
+        const btns = [document.getElementById('theme-toggle'), document.getElementById('theme-toggle-mobile')];
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { html.classList.add('dark'); } else { html.classList.remove('dark'); }
+        btns.forEach(b => b.addEventListener('click', () => { html.classList.toggle('dark'); localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light'; }));
+
+        // --- 2. NAV LOGIC ---
+        const pages = document.querySelectorAll('.page'), navLinks = document.querySelectorAll('.nav-link'), mobileBtns = document.querySelectorAll('.mobile-icon-btn'), navBtns = document.querySelectorAll('.nav-link-button');
+        function showPage(id) {
+            pages.forEach(p => p.classList.remove('active')); document.getElementById(`page-${id}`).classList.add('active');
+            navLinks.forEach(l => l.classList.toggle('text-brand-500', l.dataset.page === id));
+            mobileBtns.forEach(b => b.classList.toggle('active', b.dataset.page === id));
+            window.scrollTo(0,0);
         }
-
-        toggleButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (html.classList.contains('dark')) {
-                    html.classList.remove('dark');
-                    html.classList.add('light');
-                    localStorage.theme = 'light';
-                } else {
-                    html.classList.add('dark');
-                    html.classList.remove('light');
-                    localStorage.theme = 'dark';
-                }
-            });
-        });
-
-        // --- 2. NAVIGATION LOGIC ---
-        const pages = document.querySelectorAll('.page');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const mobileButtons = document.querySelectorAll('.mobile-icon-btn');
-        const navButtons = document.querySelectorAll('.nav-link-button');
-
-        function showPage(pageId) {
-            pages.forEach(page => page.classList.remove('active'));
-            document.getElementById(`page-${pageId}`).classList.add('active');
-            
-            // Update Desktop Active State
-            navLinks.forEach(link => link.classList.toggle('text-brand-600', link.dataset.page === pageId));
-            
-            // Update Mobile Dock Active State
-            mobileButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === pageId));
-            
-            window.scrollTo(0, 0);
-        }
-
-        [...navLinks, ...mobileButtons, ...navButtons].forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPage(link.dataset.page);
-            });
-        });
-
+        [...navLinks, ...mobileBtns, ...navBtns].forEach(l => l.addEventListener('click', (e) => { e.preventDefault(); showPage(l.dataset.page); }));
         showPage('home');
 
-        // --- 3. FILE UPLOAD LOGIC ---
-        const fileInput = document.getElementById('file-upload');
-        const fileNameDisplay = document.getElementById('file-name-display');
-        const hiddenBase64 = document.getElementById('ppt_base64');
-        const hiddenFilename = document.getElementById('ppt_filename');
-        const dropArea = document.getElementById('drop-area');
-
-        // Drag & Drop visual effects
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                dropArea.classList.add('is-active');
-            }, false);
-        });
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                dropArea.classList.remove('is-active');
-            }, false);
-        });
-
-        dropArea.addEventListener('drop', (e) => {
-            const files = e.dataTransfer.files;
-            handleFiles(files);
-        }, false);
-
-        fileInput.addEventListener('change', function() { handleFiles(this.files); });
-
+        // --- 3. FILE UPLOAD ---
+        const fileInput=document.getElementById('file-upload'), fileName=document.getElementById('file-name-display'), hiddenBase64=document.getElementById('ppt_base64'), hiddenName=document.getElementById('ppt_filename'), dropArea=document.getElementById('drop-area');
+        ['dragenter','dragover'].forEach(e => dropArea.addEventListener(e, (ev)=>{ev.preventDefault();dropArea.classList.add('is-active')}));
+        ['dragleave','drop'].forEach(e => dropArea.addEventListener(e, (ev)=>{ev.preventDefault();dropArea.classList.remove('is-active')}));
+        dropArea.addEventListener('drop', (e)=>{handleFiles(e.dataTransfer.files)});
+        fileInput.addEventListener('change', function(){handleFiles(this.files)});
         function handleFiles(files) {
-            if (files.length > 0) {
-                const file = files[0];
-                if (file.size > 10 * 1024 * 1024) { alert("File too large (>10MB)"); return; }
-                
-                fileNameDisplay.textContent = "📎 " + file.name;
-                hiddenFilename.value = file.name;
-
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function () { hiddenBase64.value = reader.result; };
-                reader.onerror = function () { alert("Error reading file"); };
+            if(files.length){
+                if(files[0].size > 10*1024*1024){alert("File > 10MB"); return;}
+                fileName.textContent = "📎 " + files[0].name; hiddenName.value = files[0].name;
+                const r = new FileReader(); r.readAsDataURL(files[0]);
+                r.onload=()=>{hiddenBase64.value=r.result}; r.onerror=()=>{alert("Read error")};
             }
         }
 
-        // --- 4. FORM SUBMISSION ---
-        const form = document.getElementById("registration-form");
-        const submitButton = document.getElementById("submit-button");
-        const loadingModal = document.getElementById("loading-backdrop");
-        const modalBackdrop = document.getElementById("modal-backdrop");
-        const successModal = document.getElementById("success-modal");
-        const errorModal = document.getElementById("error-modal");
-
-        // REPLACE THIS URL AFTER DEPLOYING GOOGLE APPS SCRIPT
+        // --- 4. FORM SUBMIT ---
+        const form=document.getElementById("registration-form"), submitBtn=document.getElementById("submit-button"), loading=document.getElementById("loading-backdrop"), modalBack=document.getElementById("modal-backdrop"), success=document.getElementById("success-modal"), error=document.getElementById("error-modal");
         const SCRIPT_URL = "INSERT_YOUR_DEPLOYED_WEB_APP_URL_HERE"; 
-
+        
         form.addEventListener("submit", (e) => {
             e.preventDefault();
-            if(!hiddenBase64.value) { alert("Please upload your PPT file."); return; }
-
-            submitButton.disabled = true;
-            submitButton.textContent = "Uploading...";
-            loadingModal.style.display = "flex";
-
-            const formData = new FormData(form);
-
-            fetch(SCRIPT_URL, { method: "POST", body: formData })
-                .then(res => res.json())
-                .then(data => {
-                    loadingModal.style.display = "none";
-                    modalBackdrop.style.display = "flex";
-                    if (data.result === "success") {
-                        successModal.style.display = "block";
-                        form.reset();
-                        fileNameDisplay.textContent = "";
-                        hiddenBase64.value = "";
-                    } else {
-                        errorModal.style.display = "block";
-                        document.getElementById("error-message").textContent = data.message || "Failed.";
-                    }
-                    submitButton.disabled = false;
-                    submitButton.textContent = "Submit Registration";
-                })
-                .catch(err => {
-                    loadingModal.style.display = "none";
-                    modalBackdrop.style.display = "flex";
-                    errorModal.style.display = "block";
-                    document.getElementById("error-message").textContent = "Network error.";
-                    submitButton.disabled = false;
-                });
+            if(!hiddenBase64.value) { alert("Please upload PPT."); return; }
+            submitBtn.disabled=true; submitBtn.textContent="Uploading..."; loading.style.display="flex";
+            fetch(SCRIPT_URL, {method: "POST", body: new FormData(form)})
+            .then(r=>r.json()).then(d=>{
+                loading.style.display="none"; modalBack.style.display="flex";
+                if(d.result==="success"){success.style.display="block"; form.reset(); fileName.textContent=""; hiddenBase64.value="";}
+                else{error.style.display="block"; document.getElementById("error-message").textContent=d.message;}
+                submitBtn.disabled=false; submitBtn.textContent="Submit Registration";
+            }).catch(()=>{loading.style.display="none"; modalBack.style.display="flex"; error.style.display="block"; submitBtn.disabled=false;});
         });
-
-        function closeModal() {
-            modalBackdrop.style.display = "none";
-            successModal.style.display = "none";
-            errorModal.style.display = "none";
-        }
+        function closeModal(){modalBack.style.display="none";success.style.display="none";error.style.display="none";}
 
         // --- 5. PARTICLES ---
-        tsParticles.load("particles-container", {
-            fpsLimit: 60,
-            particles: {
-                color: { value: "#0ea5e9" },
-                links: { color: "#8b5cf6", distance: 150, enable: true, opacity: 0.2, width: 1 },
-                move: { enable: true, speed: 1 },
-                number: { density: { enable: true, area: 800 }, value: 40 },
-                opacity: { value: 0.5 },
-                size: { value: { min: 1, max: 3 } },
-            },
-            detectRetina: true,
-        });
+        tsParticles.load("particles-container", {fpsLimit:60, particles:{color:{value:"#0ea5e9"}, links:{color:"#8b5cf6", distance:150, enable:true, opacity:0.2, width:1}, move:{enable:true, speed:1}, number:{density:{enable:true, area:800}, value:40}, opacity:{value:0.5}, size:{value:{min:1, max:3}}}, detectRetina:true});
     </script>
 </body>
 </html>
