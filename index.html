@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextGen Computing 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9', /* Sky Blue */
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            500: '#8b5cf6', /* Violet */
+                            600: '#7c3aed',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #0f172a;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-link.active {
+            font-weight: 700;
+            color: #0284c7;
+            border-bottom: 2px solid #0284c7;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, #0ea5e9, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #modal-backdrop, #loading-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 56px;
+            height: 56px;
+            border: 6px solid #e2e8f0;
+            border-top-color: #0ea5e9;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+        }
+        #mobile-menu.open {
+            max-height: 400px; 
+            opacity: 1;
+        }
+
+        /* File Upload Styles */
+        .file-drop-area {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 100%;
+            padding: 25px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            transition: 0.2s;
+            background-color: #f8fafc;
+        }
+        .file-drop-area.is-active {
+            background-color: #e0f2fe;
+            border-color: #0ea5e9;
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <div id="particles-container"></div>
+
+    <header class="bg-white/90 shadow-sm sticky top-0 z-40 backdrop-blur-md border-b border-slate-100">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="showPage('home')">
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-bold tracking-tight text-slate-800">NEXT<span class="text-brand-500">GEN</span></span>
+                        <span class="text-xs font-semibold tracking-widest text-slate-500 uppercase">Computing 2025</span>
+                    </div>
+                </div>
+
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="#" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-500 hover:text-brand-600 transition-colors" data-page="home">Home</a>
+                    <a href="#" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-500 hover:text-brand-600 transition-colors" data-page="topics">Topics</a>
+                    <a href="#" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-500 hover:text-brand-600 transition-colors" data-page="rules">Guidelines</a>
+                    <a href="#" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-500 hover:text-brand-600 transition-colors" data-page="register">Register & Submit</a>
+                </div>
+
+                <div class="sm:hidden flex items-center">
+                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-slate-500 hover:bg-slate-100 focus:outline-none">
+                        <svg id="menu-icon-open" class="block h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="menu-icon-close" class="hidden h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header> 
+
+    <div class="sm:hidden bg-white shadow-lg sticky top-20 z-30 border-b border-slate-100" id="mobile-menu">
+        <div class="pt-2 pb-3 space-y-1">
+            <a href="#" class="nav-link-mobile block pl-4 pr-4 py-3 border-l-4 border-transparent text-base font-medium text-slate-600 hover:bg-slate-50 hover:border-brand-500 hover:text-brand-700" data-page="home">Home</a>
+            <a href="#" class="nav-link-mobile block pl-4 pr-4 py-3 border-l-4 border-transparent text-base font-medium text-slate-600 hover:bg-slate-50 hover:border-brand-500 hover:text-brand-700" data-page="topics">Topics</a>
+            <a href="#" class="nav-link-mobile block pl-4 pr-4 py-3 border-l-4 border-transparent text-base font-medium text-slate-600 hover:bg-slate-50 hover:border-brand-500 hover:text-brand-700" data-page="rules">Guidelines</a>
+            <a href="#" class="nav-link-mobile block pl-4 pr-4 py-3 border-l-4 border-transparent text-base font-medium text-slate-600 hover:bg-slate-50 hover:border-brand-500 hover:text-brand-700" data-page="register">Register</a>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+
+        <main id="page-home" class="page active">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <div class="inline-block px-4 py-1.5 bg-brand-50 border border-brand-100 rounded-full text-brand-700 text-sm font-bold mb-6">
+                        🚀 The Future is Here
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight text-slate-900 mb-6">
+                        NextGen <br/>
+                        <span class="gradient-text">Computing</span>
+                    </h1>
+                    <p class="text-xl text-slate-600 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
+                        Join us for the ultimate Paper Presentation event. Explore groundbreaking ideas in AI, Quantum Computing, and Blockchain. Present your vision for the future.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button class="nav-link-button px-8 py-4 bg-brand-600 text-white font-bold rounded-xl shadow-lg hover:bg-brand-700 transition-all hover:scale-105" data-page="register">
+                            Register & Submit PPT
+                        </button>
+                        <button class="nav-link-button px-8 py-4 bg-white text-slate-700 border border-slate-200 font-bold rounded-xl shadow-sm hover:bg-slate-50 transition-all hover:scale-105" data-page="topics">
+                            View Topics
+                        </button>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-white/40 backdrop-blur-sm p-8">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-brand-500">
+                                <h3 class="font-bold text-slate-800">Presentation</h3>
+                                <p class="text-sm text-slate-500 mt-1">8-10 Slides Max</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-accent-500">
+                                <h3 class="font-bold text-slate-800">Team Size</h3>
+                                <p class="text-sm text-slate-500 mt-1">1 to 3 Members</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-teal-500">
+                                <h3 class="font-bold text-slate-800">Mode</h3>
+                                <p class="text-sm text-slate-500 mt-1">Offline / Hybrid</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-rose-500">
+                                <h3 class="font-bold text-slate-800">Prizes</h3>
+                                <p class="text-sm text-slate-500 mt-1">Certificates & Awards</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <main id="page-topics" class="page">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-4xl font-bold text-slate-900 mb-4">Presentation Topics</h2>
+                <p class="text-lg text-slate-600">Choose one of the cutting-edge domains below for your presentation. Your PPT should propose innovative solutions or explore future trends.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl shadow-md p-8 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-600">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Artificial Intelligence</h3>
+                    <p class="text-slate-600">Generative AI, Ethics in AI, AI in Healthcare, or Autonomous Systems.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-md p-8 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6 text-purple-600">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Quantum Computing</h3>
+                    <p class="text-slate-600">Cryptography, Qubits, Quantum Algorithms, and Post-Quantum Security.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-md p-8 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-6 text-teal-600">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Cybersecurity & Blockchain</h3>
+                    <p class="text-slate-600">Decentralized Finance (DeFi), Zero Trust Security, NFT utility, or Ethical Hacking.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-md p-8 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6 text-indigo-600">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" /></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Cloud & Edge Computing</h3>
+                    <p class="text-slate-600">Serverless Architecture, 5G Integration, Fog Computing, and Green Cloud.</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <p class="text-slate-500 mb-4">Have a unique topic idea? Select "Open Innovation" in registration.</p>
+                <button class="nav-link-button px-8 py-3 bg-brand-600 text-white font-bold rounded-lg shadow-md hover:bg-brand-700 transition-colors" data-page="register">
+                    Submit Your Topic
+                </button>
+            </div>
+        </main>
+
+        <main id="page-rules" class="page">
+            <section class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-slate-100">
+                <h1 class="text-3xl font-bold text-slate-900 mb-8 border-b pb-4">Guidelines & Instructions</h1>
+                
+                <div class="space-y-6 text-slate-600">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold">1</div>
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-800">Presentation Format</h4>
+                            <p class="mt-1">Participants must submit a PowerPoint presentation (.ppt, .pptx) or PDF. Maximum of 10 slides (excluding title and thank you slides).</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold">2</div>
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-800">Time Limit</h4>
+                            <p class="mt-1">Each team will be given <strong>7 minutes</strong> for presentation and <strong>3 minutes</strong> for Q&A.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold">3</div>
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-800">Team Structure</h4>
+                            <p class="mt-1">Teams can consist of 1 to 3 members. Inter-college teams are allowed.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold">4</div>
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-800">Deadline</h4>
+                            <p class="mt-1">All PPTs must be uploaded via the registration form before the cutoff date. Late submissions will not be accepted.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <main id="page-register" class="page">
+            <section class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-slate-100">
+                <div class="text-center mb-10">
+                    <h1 class="text-3xl font-bold text-slate-900">Event Registration</h1>
+                    <p class="text-slate-600 mt-2">Fill in the details and upload your PPT file.</p>
+                </div>
+                
+                <form id="registration-form" class="space-y-8">
+                    
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            Team Details
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Lead Name <span class="text-red-500">*</span></label>
+                                <input type="text" name="leader_name" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 py-2.5 px-3 border" placeholder="Full Name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Team Member 2</label>
+                                <input type="text" name="member2" class="w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 py-2.5 px-3 border" placeholder="Optional">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Team Member 3</label>
+                                <input type="text" name="member3" class="w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 py-2.5 px-3 border" placeholder="Optional">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">College Name <span class="text-red-500">*</span></label>
+                                <input type="text" name="college" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 py-2.5 px-3 border">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            Contact
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Email <span class="text-red-500">*</span></label>
+                                <input type="email" name="email" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 py-2.5 px-3 border" placeholder="you@college.edu">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                                <input type="tel" name="phone" required pattern="[0-9]{10}" class="w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 py-2.5 px-3 border" placeholder="10-digit mobile">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                            Presentation Upload
+                        </h2>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Select Topic <span class="text-red-500">*</span></label>
+                            <select name="topic" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 py-2.5 px-3 border bg-white mb-6">
+                                <option value="" disabled selected>Choose a topic...</option>
+                                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                <option value="Quantum Computing">Quantum Computing</option>
+                                <option value="Cybersecurity">Cybersecurity & Blockchain</option>
+                                <option value="Cloud Computing">Cloud & Edge Computing</option>
+                                <option value="Open Innovation">Open Innovation (Other)</option>
+                            </select>
+                        </div>
+
+                        <div class="file-drop-area cursor-pointer" id="drop-area">
+                            <div class="text-center">
+                                <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="mt-4 flex text-sm text-slate-600 justify-center">
+                                    <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-brand-600 hover:text-brand-500 focus-within:outline-none">
+                                        <span>Upload a file</span>
+                                        <input id="file-upload" name="ppt_file_display" type="file" class="sr-only" accept=".ppt,.pptx,.pdf">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-2">PPT, PPTX, PDF up to 10MB</p>
+                                <p id="file-name-display" class="text-sm font-bold text-brand-700 mt-4"></p>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="ppt_filename" id="ppt_filename">
+                        <input type="hidden" name="ppt_base64" id="ppt_base64">
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" id="submit-button" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-brand-600 hover:bg-brand-700 focus:outline-none transition-transform hover:scale-[1.01]">
+                            Complete Registration
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <div id="loading-backdrop" class="flex">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="modal-backdrop" class="flex">
+        <div id="success-modal" class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center hidden">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+                <svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-800">Submitted!</h3>
+            <p class="text-slate-600 mt-2">Your presentation has been received. Good luck!</p>
+            <button onclick="closeModal()" class="mt-6 w-full py-2.5 px-4 bg-slate-800 text-white font-semibold rounded-lg hover:bg-slate-900">Close</button>
+        </div>
+        
+        <div id="error-modal" class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center hidden">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-6">
+                <svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-800">Error</h3>
+            <p class="text-slate-600 mt-2" id="error-message">Something went wrong.</p>
+            <button onclick="closeModal()" class="mt-6 w-full py-2.5 px-4 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Navigation Logic ---
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavLinks = document.querySelectorAll('.nav-link-mobile');
+        const navButtons = document.querySelectorAll('.nav-link-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const iconOpen = document.getElementById('menu-icon-open');
+        const iconClose = document.getElementById('menu-icon-close');
+
+        function showPage(pageId) {
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+            
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.dataset.page === pageId);
+            });
+            
+            // Close mobile menu
+            mobileMenu.classList.remove('open');
+            iconOpen.classList.remove('hidden');
+            iconClose.classList.add('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        [...navLinks, ...mobileNavLinks, ...navButtons].forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(link.dataset.page);
+            });
+        });
+
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        });
+
+        showPage('home');
+
+        // --- File Upload Handling (Base64 conversion) ---
+        const fileInput = document.getElementById('file-upload');
+        const fileNameDisplay = document.getElementById('file-name-display');
+        const hiddenBase64 = document.getElementById('ppt_base64');
+        const hiddenFilename = document.getElementById('ppt_filename');
+        const dropArea = document.getElementById('drop-area');
+
+        // Drag and Drop Effects
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.add('is-active'), false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.remove('is-active'), false);
+        });
+
+        // Handle File Drop
+        dropArea.addEventListener('drop', handleDrop, false);
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        // Handle File Select
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                
+                // Validate size (e.g., 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert("File is too large. Max 10MB allowed.");
+                    return;
+                }
+
+                fileNameDisplay.textContent = "Selected: " + file.name;
+                hiddenFilename.value = file.name;
+
+                // Convert to Base64
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    // Remove the Data URL prefix (e.g., "data:application/pdf;base64,")
+                    // The backend script usually needs pure base64
+                    hiddenBase64.value = reader.result; // Sending full data URI is safer for generic handling
+                };
+                reader.onerror = function (error) {
+                    console.log('Error: ', error);
+                    alert("Error reading file.");
+                };
+            }
+        }
+
+        // --- Form Submission ---
+        const form = document.getElementById("registration-form");
+        const submitButton = document.getElementById("submit-button");
+        const loadingModal = document.getElementById("loading-backdrop");
+        const modalBackdrop = document.getElementById("modal-backdrop");
+        const successModal = document.getElementById("success-modal");
+        const errorModal = document.getElementById("error-modal");
+
+        // YOUR SCRIPT URL HERE
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzolP2q-uG90RRUlotsTW7nV3nHm_NSjhMZjmwDWGEJqBi7pLgjA6MpQzA0HL--5xVgpw/exec";
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            // Check if file is uploaded
+            if(!hiddenBase64.value) {
+                alert("Please upload your PPT file before submitting.");
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = "Uploading Presentation...";
+            loadingModal.style.display = "flex";
+
+            const formData = new FormData(form);
+
+            fetch(SCRIPT_URL, { method: "POST", body: formData })
+                .then((res) => res.json())
+                .then((data) => {
+                    loadingModal.style.display = "none";
+                    if (data.result === "success") {
+                        modalBackdrop.style.display = "flex";
+                        successModal.style.display = "block";
+                        form.reset();
+                        fileNameDisplay.textContent = "";
+                        hiddenBase64.value = "";
+                    } else {
+                        modalBackdrop.style.display = "flex";
+                        errorModal.style.display = "block";
+                        document.getElementById("error-message").textContent = data.message || "Submission failed.";
+                    }
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Complete Registration";
+                })
+                .catch((err) => {
+                    loadingModal.style.display = "none";
+                    modalBackdrop.style.display = "flex";
+                    errorModal.style.display = "block";
+                    document.getElementById("error-message").textContent = "Network error. Check console.";
+                    console.error(err);
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Complete Registration";
+                });
+        });
+
+        function closeModal() {
+            modalBackdrop.style.display = "none";
+            successModal.style.display = "none";
+            errorModal.style.display = "none";
+        }
+
+        // --- Particles Theme (Network / Tech) ---
+        tsParticles.load("particles-container", {
+            fpsLimit: 60,
+            particles: {
+                color: { value: "#0ea5e9" }, // Sky blue dots
+                links: {
+                    color: "#8b5cf6", // Violet connections
+                    distance: 150,
+                    enable: true,
+                    opacity: 0.2,
+                    width: 1,
+                },
+                move: {
+                    enable: true,
+                    speed: 1.5,
+                    direction: "none",
+                    outModes: "bounce",
+                },
+                number: {
+                    density: { enable: true, area: 800 },
+                    value: 50,
+                },
+                opacity: { value: 0.5 },
+                shape: { type: "circle" },
+                size: { value: { min: 1, max: 3 } },
+            },
+            detectRetina: true,
+        });
+    </script>
+</body>
+</html>
