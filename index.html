@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -37,29 +38,25 @@
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; }
         
-        /* Smooth Scroll & Scrollbar */
         html { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
 
-        /* Dynamic Background */
         #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
         html.light #particles-container { background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%); }
         html.dark #particles-container { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); }
 
-        /* Page Transitions */
         .page { display: none; animation: slideUp 0.4s ease-out; }
         .page.active { display: block; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Text Gradient */
         .gradient-text {
             background: linear-gradient(to right, #0ea5e9, #8b5cf6);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* Mobile Dock (iPhone Style) */
+        /* Mobile Dock */
         .mobile-dock {
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
             width: 95%; max-width: 420px;
@@ -80,18 +77,24 @@
         .mobile-icon-btn.active { color: #0ea5e9; transform: translateY(-2px); }
         .mobile-icon-btn svg { width: 22px; height: 22px; mb-1; }
 
-        /* File Upload */
         .file-drop-area { border: 2px dashed #cbd5e1; transition: 0.2s; }
         .file-drop-area.is-active { border-color: #0ea5e9; background: rgba(14, 165, 233, 0.05); }
         
-        /* Modals */
         #modal-backdrop, #loading-backdrop {
             display: none; position: fixed; inset: 0; z-index: 60;
-            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(6px);
             justify-content: center; align-items: center;
         }
         .spinner { width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.2); border-top-color: #0ea5e9; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Ticket Style for QR Pass */
+        .ticket-card {
+            background-image: radial-gradient(circle at 0 0, transparent 15px, white 16px), radial-gradient(circle at 100% 0, transparent 15px, white 16px), radial-gradient(circle at 100% 100%, transparent 15px, white 16px), radial-gradient(circle at 0 100%, transparent 15px, white 16px);
+        }
+        .dark .ticket-card {
+             background-image: radial-gradient(circle at 0 0, transparent 15px, #1e293b 16px), radial-gradient(circle at 100% 0, transparent 15px, #1e293b 16px), radial-gradient(circle at 100% 100%, transparent 15px, #1e293b 16px), radial-gradient(circle at 0 100%, transparent 15px, #1e293b 16px);
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-[#0f172a] dark:text-slate-100">
@@ -106,6 +109,7 @@
             </div>
             <div class="flex items-center space-x-8">
                 <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="home">Home</a>
+                <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="about">About</a>
                 <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="details">Rules</a>
                 <a href="#" class="nav-link text-sm font-medium hover:text-brand-500 transition-colors" data-page="register">Register</a>
                 <button id="theme-toggle" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-700">
@@ -194,9 +198,6 @@
                     <p class="mb-4">
                         This year, we focus on the convergence of <strong>Artificial Intelligence, Quantum Computing, and Blockchain</strong>. We invite students from all departments to step forward, present their papers, and contribute to the dialogue that shapes our future.
                     </p>
-                    <p>
-                        Whether you are a coding prodigy, a research enthusiast, or a tech visionary, this is your stage. Join us for two days of learning, competition, and networking.
-                    </p>
                 </div>
             </section>
         </main>
@@ -223,27 +224,6 @@
                             <li>Innovative and research-oriented topics preferred.</li>
                         </ul>
                     </div>
-                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-pink-500">
-                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">🖥 Presentation Format</h3>
-                        <ul class="list-disc list-inside text-sm text-slate-600 dark:text-slate-300 space-y-2">
-                            <li>Format: <strong>PPT / PPTX</strong>.</li>
-                            <li>Slide Count: Recommended <strong>7–8 slides</strong>.</li>
-                            <li><strong>Originality:</strong> Plagiarism is strictly prohibited.</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-l-4 border-green-500">
-                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">🧪 Event Levels</h3>
-                        <div class="text-sm text-slate-600 dark:text-slate-300 space-y-3">
-                            <div>
-                                <strong class="text-slate-800 dark:text-white">Level 1: Online Screening (12th)</strong>
-                                <p>Submitted PPTs evaluated online. Shortlisted teams move to Final.</p>
-                            </div>
-                            <div>
-                                <strong class="text-slate-800 dark:text-white">Level 2: Offline Presentation (13th)</strong>
-                                <p>Presentation in front of judges at the venue.</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="bg-indigo-50 dark:bg-slate-800 p-6 rounded-2xl border border-indigo-100 dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -256,9 +236,37 @@
                         ⚠ Late submissions not accepted
                     </div>
                 </div>
+            </section>
+        </main>
+        
+        <main id="page-about" class="page">
+             <section class="max-w-4xl mx-auto space-y-8">
+                <div class="text-center mb-10">
+                    <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Meet the Team</h1>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2">The people behind NextGen Computing.</p>
+                </div>
 
-                <div class="text-center text-sm text-slate-500 dark:text-slate-400">
-                    <p>Judges’ decision will be final. Participants must carry their college ID card.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md text-center border border-slate-100 dark:border-slate-700">
+                        <div class="w-16 h-16 bg-brand-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">👨‍🏫</div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white">Prof. Radhika S</h4>
+                        <p class="text-xs text-brand-600 dark:text-brand-400 uppercase font-bold tracking-wide mt-1">Faculty Coordinator</p>
+                        <a href="tel:+919659655986" class="block mt-3 text-sm text-slate-500 hover:text-brand-500">📞 +91 96596 55986</a>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md text-center border border-slate-100 dark:border-slate-700">
+                        <div class="w-16 h-16 bg-indigo-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">🧑‍🎓</div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white">Sudalai S</h4>
+                        <p class="text-xs text-indigo-600 dark:text-indigo-400 uppercase font-bold tracking-wide mt-1">Student Lead</p>
+                        <a href="tel:+919791557351" class="block mt-3 text-sm text-slate-500 hover:text-brand-500">📞 +91 97915 57351</a>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md text-center border border-slate-100 dark:border-slate-700">
+                        <div class="w-16 h-16 bg-indigo-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">👨‍🎓</div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white">Mohamed Haif</h4>
+                        <p class="text-xs text-indigo-600 dark:text-indigo-400 uppercase font-bold tracking-wide mt-1">Student Lead</p>
+                        <a href="tel:+919787664966" class="block mt-3 text-sm text-slate-500 hover:text-brand-500">📞 +91 97876 64966</a>
+                    </div>
                 </div>
             </section>
         </main>
@@ -363,32 +371,48 @@
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
             Register
         </a>
+        <a href="#" class="mobile-icon-btn" data-page="about">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            About
+        </a>
     </nav>
 
     <div id="loading-backdrop" class="flex"><div class="spinner"></div></div>
+    
     <div id="modal-backdrop" class="flex">
-        <div id="success-modal" class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center hidden">
-            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6"><svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
-            <h3 class="text-2xl font-bold text-slate-800 dark:text-white">Registration Successful!</h3>
-            <p class="text-slate-600 dark:text-slate-400 mt-2">See you at the event.</p>
-            <button onclick="closeModal()" class="mt-6 w-full py-3 bg-slate-900 dark:bg-brand-600 text-white font-bold rounded-xl">Awesome</button>
+        <div id="success-modal" class="ticket-card bg-white dark:bg-slate-800 w-full max-w-sm mx-4 p-0 rounded-3xl shadow-2xl overflow-hidden hidden transform transition-all">
+             <div class="bg-brand-600 p-5 text-center">
+                 <h2 class="text-xl font-bold text-white tracking-wide uppercase">Entry Pass</h2>
+                 <p class="text-brand-100 text-xs mt-1">NextGen Computing 2025</p>
+             </div>
+             <div class="p-8 text-center">
+                 <div id="qrcode" class="flex justify-center mb-6"></div>
+                 <h3 id="pass-name" class="text-lg font-bold text-slate-900 dark:text-white uppercase mb-1">Name</h3>
+                 <p id="pass-reg" class="text-sm text-slate-500 dark:text-slate-400 font-mono tracking-wider">Reg No</p>
+                 
+                 <div class="mt-6 pt-6 border-t border-dashed border-slate-300 dark:border-slate-600">
+                     <p class="text-xs text-slate-400 mb-4">Screenshot this pass for entry.</p>
+                     <button onclick="closeModal()" class="w-full py-3 bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-bold rounded-xl shadow-lg">Close</button>
+                 </div>
+             </div>
         </div>
+
         <div id="error-modal" class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center hidden">
             <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-6"><svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></div>
-            <h3 class="text-2xl font-bold text-slate-800 dark:text-white">Error</h3>
-            <p class="text-slate-600 dark:text-slate-400 mt-2" id="error-message">Failed.</p>
+            <h3 class="text-2xl font-bold text-slate-800 dark:text-white">Submission Failed</h3>
+            <p class="text-slate-600 dark:text-slate-400 mt-2" id="error-message">Something went wrong.</p>
             <button onclick="closeModal()" class="mt-6 w-full py-3 bg-red-600 text-white font-bold rounded-xl">Try Again</button>
         </div>
     </div>
 
     <script>
-        // --- 1. THEME LOGIC ---
+        // --- THEME ---
         const html = document.documentElement;
         const btns = [document.getElementById('theme-toggle'), document.getElementById('theme-toggle-mobile')];
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { html.classList.add('dark'); } else { html.classList.remove('dark'); }
         btns.forEach(b => b.addEventListener('click', () => { html.classList.toggle('dark'); localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light'; }));
 
-        // --- 2. NAV LOGIC ---
+        // --- NAV ---
         const pages = document.querySelectorAll('.page'), navLinks = document.querySelectorAll('.nav-link'), mobileBtns = document.querySelectorAll('.mobile-icon-btn'), navBtns = document.querySelectorAll('.nav-link-button');
         function showPage(id) {
             pages.forEach(p => p.classList.remove('active')); document.getElementById(`page-${id}`).classList.add('active');
@@ -399,42 +423,57 @@
         [...navLinks, ...mobileBtns, ...navBtns].forEach(l => l.addEventListener('click', (e) => { e.preventDefault(); showPage(l.dataset.page); }));
         showPage('home');
 
-        // --- 3. FILE UPLOAD ---
+        // --- FILE UPLOAD ---
         const fileInput=document.getElementById('file-upload'), fileName=document.getElementById('file-name-display'), hiddenBase64=document.getElementById('ppt_base64'), hiddenName=document.getElementById('ppt_filename'), dropArea=document.getElementById('drop-area');
-        ['dragenter','dragover'].forEach(e => dropArea.addEventListener(e, (ev)=>{ev.preventDefault();dropArea.classList.add('is-active')}));
-        ['dragleave','drop'].forEach(e => dropArea.addEventListener(e, (ev)=>{ev.preventDefault();dropArea.classList.remove('is-active')}));
-        dropArea.addEventListener('drop', (e)=>{handleFiles(e.dataTransfer.files)});
+        dropArea.addEventListener('drop', (e)=>{e.preventDefault(); handleFiles(e.dataTransfer.files)});
+        dropArea.addEventListener('dragover', (e)=>{e.preventDefault(); dropArea.classList.add('is-active')});
+        dropArea.addEventListener('dragleave', (e)=>{e.preventDefault(); dropArea.classList.remove('is-active')});
         fileInput.addEventListener('change', function(){handleFiles(this.files)});
         function handleFiles(files) {
             if(files.length){
                 if(files[0].size > 10*1024*1024){alert("File > 10MB"); return;}
                 fileName.textContent = "📎 " + files[0].name; hiddenName.value = files[0].name;
                 const r = new FileReader(); r.readAsDataURL(files[0]);
-                r.onload=()=>{hiddenBase64.value=r.result}; r.onerror=()=>{alert("Read error")};
+                r.onload=()=>{hiddenBase64.value=r.result};
             }
         }
 
-        // --- 4. FORM SUBMIT ---
+        // --- FORM SUBMIT & QR CODE ---
         const form=document.getElementById("registration-form"), submitBtn=document.getElementById("submit-button"), loading=document.getElementById("loading-backdrop"), modalBack=document.getElementById("modal-backdrop"), success=document.getElementById("success-modal"), error=document.getElementById("error-modal");
         
-        // PASTE YOUR GOOGLE SCRIPT URL HERE
+        // PASTE YOUR DEPLOYED GOOGLE APPS SCRIPT URL HERE
         const SCRIPT_URL = "INSERT_YOUR_DEPLOYED_WEB_APP_URL_HERE"; 
         
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             if(!hiddenBase64.value) { alert("Please upload PPT."); return; }
-            submitBtn.disabled=true; submitBtn.textContent="Uploading..."; loading.style.display="flex";
+            submitBtn.disabled=true; submitBtn.textContent="Processing..."; loading.style.display="flex";
+            
             fetch(SCRIPT_URL, {method: "POST", body: new FormData(form)})
             .then(r=>r.json()).then(d=>{
                 loading.style.display="none"; modalBack.style.display="flex";
-                if(d.result==="success"){success.style.display="block"; form.reset(); fileName.textContent=""; hiddenBase64.value="";}
-                else{error.style.display="block"; document.getElementById("error-message").textContent=d.message;}
+                if(d.result==="success"){
+                    success.style.display="block"; 
+                    
+                    // Generate QR Code
+                    document.getElementById('qrcode').innerHTML = "";
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: "NEXTGEN-" + d.reg_no,
+                        width: 128, height: 128,
+                        colorDark : "#000000", colorLight : "#ffffff"
+                    });
+                    document.getElementById('pass-name').innerText = d.lead_name;
+                    document.getElementById('pass-reg').innerText = d.reg_no;
+
+                    form.reset(); fileName.textContent=""; hiddenBase64.value="";
+                } else {
+                    error.style.display="block"; document.getElementById("error-message").textContent=d.message;
+                }
                 submitBtn.disabled=false; submitBtn.textContent="Submit Registration";
             }).catch(()=>{loading.style.display="none"; modalBack.style.display="flex"; error.style.display="block"; submitBtn.disabled=false;});
         });
         function closeModal(){modalBack.style.display="none";success.style.display="none";error.style.display="none";}
 
-        // --- 5. PARTICLES ---
         tsParticles.load("particles-container", {fpsLimit:60, particles:{color:{value:"#0ea5e9"}, links:{color:"#8b5cf6", distance:150, enable:true, opacity:0.2, width:1}, move:{enable:true, speed:1}, number:{density:{enable:true, area:800}, value:40}, opacity:{value:0.5}, size:{value:{min:1, max:3}}}, detectRetina:true});
     </script>
 </body>
